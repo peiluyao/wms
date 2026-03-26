@@ -1,0 +1,5 @@
+{
+  "name": "简化版仓库管理系统 (WMS)",
+  "description": "一个基于 Vue 3 和 Spring Boot 架构理念构建的高效、精准的仓库管理系统，支持物料管理、库位监控及入库出库流程。",
+  "requestFramePermissions": []
+}
