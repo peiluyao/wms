@@ -12,34 +12,33 @@ const router = createRouter({
     },
     {
       path: '/',
-      component: () => import('../App.vue'),
-      children: [
-        {
-          path: '',
-          name: 'Dashboard',
-          component: () => import('../views/Dashboard.vue')
-        },
-        {
-          path: 'materials',
-          name: 'Materials',
-          component: () => import('../views/Materials.vue')
-        },
-        {
-          path: 'inventory',
-          name: 'Inventory',
-          component: () => import('../views/Inventory.vue')
-        },
-        {
-          path: 'inbound',
-          name: 'Inbound',
-          component: () => import('../views/Inbound.vue')
-        },
-        {
-          path: 'outbound',
-          name: 'Outbound',
-          component: () => import('../views/Outbound.vue')
-        }
-      ]
+      name: 'Dashboard',
+      component: () => import('../views/Dashboard.vue')
+    },
+    {
+      path: '/materials',
+      name: 'Materials',
+      component: () => import('../views/Materials.vue')
+    },
+    {
+      path: '/locations',
+      name: 'Locations',
+      component: () => import('../views/Locations.vue')
+    },
+    {
+      path: '/inventory',
+      name: 'Inventory',
+      component: () => import('../views/Inventory.vue')
+    },
+    {
+      path: '/inbound',
+      name: 'Inbound',
+      component: () => import('../views/Inbound.vue')
+    },
+    {
+      path: '/outbound',
+      name: 'Outbound',
+      component: () => import('../views/Outbound.vue')
     }
   ]
 });

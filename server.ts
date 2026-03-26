@@ -169,7 +169,14 @@ async function startServer() {
     const inventory = await db('inventory')
       .join('materials', 'inventory.material_id', 'materials.id')
       .join('locations', 'inventory.location_id', 'locations.id')
-      .select('inventory.*', 'materials.name as material_name', 'materials.code as material_code', 'locations.name as location_name', 'locations.code as location_code');
+      .select(
+        'inventory.*', 
+        'materials.name as material_name', 
+        'materials.code as material_code', 
+        'locations.name as location_name', 
+        'locations.code as location_code',
+        'locations.area'
+      );
     res.json(inventory);
   });
 
@@ -249,9 +256,24 @@ async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      appType: 'spa',
+      appType: 'custom', // Use custom to handle index.html manually
     });
     app.use(vite.middlewares);
+
+    app.get('*', async (req, res, next) => {
+      const url = req.originalUrl;
+      if (url.startsWith('/api')) return next();
+      
+      try {
+        const fs = await import('fs');
+        let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+        template = await vite.transformIndexHtml(url, template);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      } catch (e) {
+        vite.ssrFixStacktrace(e as Error);
+        next(e);
+      }
+    });
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
